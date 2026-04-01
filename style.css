@@ -1,0 +1,399 @@
+/* ═══════════════════════════════════════
+   PHYSIQUE PROGRAM — style.css
+═══════════════════════════════════════ */
+
+/* ── THEME VARIABLES ── */
+:root, [data-theme="dark"] {
+  --accent:     #f5576c;
+  --bg:         #0d0d0f;
+  --surface:    #1a1a22;
+  --surface2:   #222230;
+  --border:     rgba(255,255,255,0.07);
+  --text:       #e8e8f0;
+  --muted:      #6b6b80;
+  --grad:       linear-gradient(135deg, #f5576c, #f7971e);
+  --safe-b:     env(safe-area-inset-bottom, 0px);
+  --safe-t:     env(safe-area-inset-top, 0px);
+  --status-bar: #0d0d0f;
+}
+
+[data-theme="light"] {
+  --accent:     #e8304a;
+  --bg:         #f0f0f5;
+  --surface:    #ffffff;
+  --surface2:   #e4e4ee;
+  --border:     rgba(0,0,0,0.08);
+  --text:       #1a1a2e;
+  --muted:      #888899;
+  --grad:       linear-gradient(135deg, #f5576c, #f7971e);
+  --status-bar: #f0f0f5;
+}
+
+/* ── RESET ── */
+*, *::before, *::after {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  padding-bottom: calc(32px + var(--safe-b));
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ── TYPOGRAPHY ── */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+/* ── TOP BAR ── */
+.topbar {
+  position: sticky;
+  top: 0; z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(12px + var(--safe-t)) 16px 12px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: background 0.3s;
+}
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 5px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.theme-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, border-color 0.2s, background 0.3s;
+  flex-shrink: 0;
+  user-select: none;
+}
+.theme-btn:hover {
+  transform: scale(1.12);
+  border-color: var(--accent);
+}
+.theme-btn:active { transform: scale(0.95); }
+
+/* ── DAY TABS ── */
+.day-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 14px 16px 6px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.day-tabs::-webkit-scrollbar { display: none; }
+.day-tab {
+  flex: 0 0 auto;
+  padding: 8px 16px;
+  border-radius: 30px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex; align-items: center; gap: 6px;
+  min-height: 40px;
+  transition: all 0.2s ease;
+}
+.day-tab:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.day-tab.active {
+  background: var(--grad);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(245, 87, 108, 0.35);
+}
+
+/* ── MAIN CONTENT ── */
+.main {
+  padding: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ── WORKOUT CARDS ── */
+.wcard { display: none; }
+.wcard.active {
+  display: block;
+  animation: fadeUp 0.35s ease;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.wcard-header {
+  text-align: center;
+  padding: 24px 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.wcard-header::before {
+  content: '';
+  position: absolute;
+  top: -50px; left: 50%;
+  transform: translateX(-50%);
+  width: 260px; height: 130px;
+  background: radial-gradient(ellipse,
+    color-mix(in srgb, var(--accent) 20%, transparent),
+    transparent 70%);
+  pointer-events: none;
+}
+.wcard-header h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 7vw, 2.8rem);
+  letter-spacing: 5px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.wcard-header p {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+/* ── EXERCISE CARD ── */
+.ex {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s, transform 0.2s, background 0.3s;
+}
+@media (hover: hover) {
+  .ex:hover {
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    transform: translateX(4px);
+  }
+}
+.ex-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.ex-num {
+  width: 34px; height: 34px; min-width: 34px;
+  border-radius: 9px;
+  background: var(--grad);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.ex-info { flex: 1; min-width: 0; }
+.ex-name {
+  font-size: clamp(0.88rem, 3vw, 1rem);
+  font-weight: 700;
+  color: var(--text);
+}
+.ex-sets {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 2px;
+}
+.ex-desc {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.65;
+  padding-left: 46px;
+  margin-bottom: 12px;
+}
+.ex-gif-wrap {
+  position: relative;
+  background: var(--bg);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.ex-gif-wrap img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: clamp(150px, 38vw, 210px);
+  object-fit: contain;
+  margin: 0 auto;
+  padding: 10px;
+}
+.zoom-btn {
+  position: absolute;
+  bottom: 8px; right: 8px;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+  backdrop-filter: blur(6px);
+}
+.zoom-btn:hover { background: rgba(0,0,0,0.8); transform: scale(1.1); }
+.zoom-btn:active { transform: scale(0.92); }
+
+/* ── GIF ZOOM MODAL ── */
+.gif-modal {
+  display: none;
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  align-items: center; justify-content: center;
+  padding: 16px;
+}
+.gif-modal.open {
+  display: flex;
+  animation: fadeOv 0.2s ease;
+}
+@keyframes fadeOv { from { opacity: 0; } to { opacity: 1; } }
+
+.gif-modal-inner {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  max-width: min(500px, 94vw);
+  width: 100%;
+  animation: zoomIn 0.25s cubic-bezier(0.34,1.4,0.64,1);
+}
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.gif-modal-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: none;
+  color: var(--muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+.gif-modal-close:hover { background: var(--accent); color: #fff; }
+.gif-modal-inner img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: contain;
+  max-height: 60vh;
+  display: block;
+}
+.gif-modal-inner p {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-top: 12px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── INSTALL BANNER ── */
+#install-banner {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 500;
+  background: var(--surface2);
+  border-top: 1px solid var(--border);
+  padding: 14px 20px calc(14px + var(--safe-b));
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 -6px 24px rgba(0,0,0,0.4);
+}
+#install-banner.show { display: flex; }
+.ib-icon { font-size: 1.8rem; flex-shrink: 0; }
+.ib-text { flex: 1; }
+.ib-text strong { font-size: 0.88rem; display: block; }
+.ib-text span { font-size: 0.72rem; color: var(--muted); }
+.ib-btn {
+  padding: 9px 18px;
+  background: var(--grad);
+  border: none; border-radius: 30px;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+}
+.ib-close {
+  background: none; border: none;
+  color: var(--muted);
+  font-size: 1.2rem;
+  cursor: pointer; padding: 4px;
+  flex-shrink: 0;
+}
+
+/* ── OFFLINE TOAST ── */
+#offline-toast {
+  display: none;
+  position: fixed;
+  top: 16px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 600;
+  background: var(--surface2);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+  white-space: nowrap;
+  transition: opacity 0.3s;
+}
+#offline-toast.show { display: block; }
+
+/* ── RESPONSIVE ── */
+@media (min-width: 600px) {
+  .main { padding: 20px; }
+}
+@media (min-width: 900px) {
+  .main { padding: 28px; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(128,128,128,0.2);
+    border-radius: 3px;
+  }
+}
